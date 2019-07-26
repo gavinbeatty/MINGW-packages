@@ -1,0 +1,27 @@
+# Maintainer: XXX
+
+_realname=libtermkey
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=0.21.1
+pkgrel=0
+pkgdesc='Abstract library implementation of a VT220/xterm/ECMA-48 terminal emulator (mingw-w64)'
+arch=('any')
+url='http://www.leonerd.org.uk/code/libtermkey'
+license=('MIT')
+makedepends=("${MINGW_PACKAGE_PREFIX}-libtool" "${MINGW_PACKAGE_PREFIX}-pkg-config")
+source=("http://www.leonerd.org.uk/code/${_realname}/${_realname}-${pkgver}.tar.gz")
+sha256sums=('cecbf737f35d18f433c8d7864f63c0f878af41f8bd0255a3ebb16010dc044d5f')
+
+build() {
+  make libtermkey.la
+}
+
+check() {
+  make test
+}
+
+package() {
+  make install DESTDIR="${pkgdir}"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
